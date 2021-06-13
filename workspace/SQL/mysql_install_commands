@@ -1,0 +1,28 @@
+Installing MySQL Server
+
+$sudo apt-get update
+$  sudo apt-get install mysql-server
+$ sudo mysql_secure_installation utility
+
+
+Start the MySQL service
+
+$ sudo systemctl start mysql
+
+Check
+$ systemctl status mysql.service
+$ sudo mysql
+
+
+
+Installing MySQL Workbench
+
+$ sudo apt update
+$ sudo apt install mysql-workbench
+
+
+
+If Access denied for user ‘root’@’localhost
+
+$ sudo mysql -u root
+> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'baleno@se3199'; 

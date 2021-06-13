@@ -1,0 +1,104 @@
+Docker hub account
+akshdocker
+beatles@123
+akshay.zeple@gmail.com
+
+
+Install - 
+
+sudo apt-get remove docker docker-engine docker.io containerd runc
+sudo apt-get update
+sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce
+sudo usermod -aG docker $USER
+sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+
+
+Downgrade - 
+apt-get install docker-ce=18.06.1~ce~3-0~ubuntu
+
+
+Verify Installation - 
+
+docker
+docker version
+sudo docker run hello-world
+docker-compose
+sudo service docker restart
+sudo docker ps
+sudo docker images
+docker system prune -af
+
+
+
+Basic Commands
+
+
+docker pull imagename		[pull image from docker hub]
+docker images			[show all images]	
+docker ps			[show all containers]
+docker ps -a			[show all containers including stopped containers]
+docker run imagename		[create container from image]
+docker stop container_name/id	[stops container]
+docker rm container_name/id	[deletes single container]
+docker system prune -f		[delete all stopped containers]
+docker system prune -a		[delete all stopped containers + unused images]
+
+# imageName format - [host:port]/[owner]/imageName[:tag] - akshdocker/python-hello
+[defaults - hub.docker.com/library/imageName:latest]
+
+
+DOCKER RUN COMMANDS
+
+docker run -d imageName				[run container in background]
+docker run -it imageName				[interactive - attach standard input/output to container]
+docker run --name xyz imageName			[assign name xyz to container]
+docker run --entrypoint=/bin/bash imageName	[command to be executed when container created. overrides default CMD of image]	
+
+docker run -p hostPort:containerPort imagename	[port mapping between host machine port and container port]
+docker run -p 8050:80 nginx
+
+docker run -v /path/to/host/dir:/path/to/container/dir imagename	[Volume mapping]
+
+
+docker network create name
+docker run -d --network=name nginx
+docker run -it --network=name ubuntu
+
+
+CREATE OWN IMAGE [Dockerfile commands]
+
+FROM image				[import base image]
+ADD /host/files /container/files 	[copy files from host machine to container]
+RUN command				[software installation commands, create dir etc]
+ENV envVar envValue			[set environment variables, paths]
+WORKDIR dir				[set working directory]
+EXPOSE port#				[exposes port off application on container]
+ENTRYPOINT command			[first command to be executed when container is created]
+
+
+docker build -t=akshdocker/hello-python . [build image from Dockerfile]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
