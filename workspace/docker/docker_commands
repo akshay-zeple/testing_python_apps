@@ -45,6 +45,7 @@ docker ps -a			[show all containers including stopped containers]
 docker run imagename		[create container from image]
 docker stop container_name/id	[stops container]
 docker rm container_name/id	[deletes single container]
+docker rmi imgName/imgID	[deletes single image]
 docker system prune -f		[delete all stopped containers]
 docker system prune -a		[delete all stopped containers + unused images]
 
@@ -55,17 +56,19 @@ docker system prune -a		[delete all stopped containers + unused images]
 DOCKER RUN COMMANDS
 
 docker run -d imageName				[run container in background]
-docker run -it imageName				[interactive - attach standard input/output to container]
+docker run -it imageName			[interactive - attach standard input/output to container]
 docker run --name xyz imageName			[assign name xyz to container]
-docker run --entrypoint=/bin/bash imageName	[command to be executed when container created. overrides default CMD of image]	
+docker run --entrypoint=/bin/bash imageName	[command to be executed when container created. overides default CMD of image]	
 
 docker run -p hostPort:containerPort imagename	[port mapping between host machine port and container port]
 docker run -p 8050:80 nginx
 
 docker run -v /path/to/host/dir:/path/to/container/dir imagename	[Volume mapping]
 
+docker run -e NUMBER=5 imagename		[pass variable, run time input]
 
-docker network create name
+
+docker network create net_name
 docker run -d --network=name nginx
 docker run -it --network=name ubuntu
 
@@ -80,10 +83,25 @@ WORKDIR dir				[set working directory]
 EXPOSE port#				[exposes port off application on container]
 ENTRYPOINT command			[first command to be executed when container is created]
 
+FROM ubuntu
+RUN apt-get update && apt-get install -y python3
+WORKDIR /akshay/testproject
+ADD hello_world.py hello_world.py
+ENTRYPOINT python3 hello_world.py
 
-docker build -t=akshdocker/hello-python . [build image from Dockerfile]
+
+DOCKER BUILD IMAGE AND PUSH TO DOCKERHUB
+
+docker build -t=akshdocker/hello-python . 	[build image from Dockerfile]
+docker build -t=akshdocker/hello-python:v1.0 	[post code changes build new image, with tag v1.0]
 
 
+docker login									[login using dockerhub creds]
+docker push akshdocker/hello-python						[push image to dockerhub]
+docker tag akshdocker/hello-python:latest akshdocker/hello-python:v1		[change tag of existing image]
+docker push akshdocker/hello-python:v1						[push image with v1 tag]
+
+docker logs container_name/id		[chek logs of container]
 
 
 
